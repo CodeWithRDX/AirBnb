@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import { SearchBar } from './SearchBar';
 import { SearchFilters } from '@/types';
 import { 
   Globe, Menu, User as UserIcon, Heart, Compass, 
-  Briefcase, PlusCircle, LogOut, LogIn, UserPlus 
+  Briefcase, PlusCircle, LogOut, LogIn, UserPlus, Sun, Moon 
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -18,6 +19,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
   const router = useRouter();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleSearch = (filters: Partial<SearchFilters>) => {
@@ -57,8 +59,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
           <SearchBar onSearch={handleSearch} />
         </div>
 
-        {/* User Navigation Dropdown */}
+        {/* User Navigation Dropdown & Theme Toggle */}
         <div className="flex items-center space-x-3 shrink-0">
+          {/* Theme Switcher Toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+            className="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition cursor-pointer"
+            title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+          >
+            {theme === 'light' ? (
+              <Moon className="w-4 h-4 text-gray-700" />
+            ) : (
+              <Sun className="w-4 h-4 text-amber-400" />
+            )}
+          </button>
+
           {user?.role === 'HOST' || user?.role === 'ADMIN' ? (
             <Link
               href="/host"
