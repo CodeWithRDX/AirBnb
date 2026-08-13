@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© 2026 Airbnb Marketplace Clone. All original architecture.</p>
+          <p>© 2026 StayHaven (Airbnb Marketplace Clone). Educational Portfolio Assignment — Not affiliated with Airbnb, Inc.</p>
           <div className="flex space-x-6">
             <a href="#" className="hover:underline">Privacy</a>
             <a href="#" className="hover:underline">Terms</a>

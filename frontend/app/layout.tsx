@@ -10,8 +10,8 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Airbnb Marketplace Clone — Modern Vacation Rentals',
-  description: 'Book unique places to stay and things to do all over the world.',
+  title: 'StayHaven — Vacation Rental Marketplace (Educational Portfolio Project)',
+  description: 'Full-Stack SDE Portfolio Assignment. Book unique places to stay around the world.',
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
