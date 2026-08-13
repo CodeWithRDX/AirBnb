@@ -3,10 +3,11 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { CategoryBar } from '@/components/layout/CategoryBar';
+import { InteractiveMap } from '@/components/map/InteractiveMap';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import { listingService } from '@/services/listingService';
 import { Listing, SearchFilters } from '@/types';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Map as MapIcon, Grid } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 function HomePageContent() {
@@ -19,6 +20,7 @@ function HomePageContent() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showMap, setShowMap] = useState<boolean>(false);
 
   useEffect(() => {
     const categoryParam = searchParams.get('property_type') || '';
@@ -61,11 +63,10 @@ function HomePageContent() {
   };
 
   const totalPages = Math.ceil(totalCount / 12);
-
   const activeLocation = searchParams.get('location');
 
   return (
-    <div className="min-h-screen pb-16">
+    <div className="min-h-screen pb-16 relative">
       {/* Category Bar */}
       <CategoryBar
         selectedCategory={selectedCategory}
@@ -86,33 +87,71 @@ function HomePageContent() {
           </div>
         )}
 
-        {/* Listings Grid */}
-        <ListingGrid listings={listings} loading={loading} />
-
-        {/* Pagination Controls */}
-        {!loading && totalPages > 1 && (
-          <div className="flex items-center justify-center space-x-4 mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-              Page {page} of {totalPages}
-            </span>
-
-            <button
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+        {/* View Switcher: Interactive Map vs Listings Grid */}
+        {showMap ? (
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Interactive Map View</h2>
+              <button
+                onClick={() => setShowMap(false)}
+                className="text-xs font-bold text-rose-500 hover:underline"
+              >
+                Back to Grid
+              </button>
+            </div>
+            <InteractiveMap listings={listings} onClose={() => setShowMap(false)} />
           </div>
+        ) : (
+          <>
+            {/* Listings Grid */}
+            <ListingGrid listings={listings} loading={loading} />
+
+            {/* Pagination Controls */}
+            {!loading && totalPages > 1 && (
+              <div className="flex items-center justify-center space-x-4 mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Page {page} of {totalPages}
+                </span>
+
+                <button
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="p-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+          </>
         )}
+      </div>
+
+      {/* Floating Interactive Map Toggle Button */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40">
+        <button
+          onClick={() => setShowMap(!showMap)}
+          className="bg-slate-900 hover:bg-black dark:bg-rose-500 dark:hover:bg-rose-600 text-white font-bold px-6 py-3.5 rounded-full shadow-2xl flex items-center space-x-2.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer border border-slate-700"
+        >
+          {showMap ? (
+            <>
+              <span>Show list</span>
+              <Grid className="w-4 h-4" />
+            </>
+          ) : (
+            <>
+              <span>Show map</span>
+              <MapIcon className="w-4 h-4" />
+            </>
+          )}
+        </button>
       </div>
     </div>
   );
