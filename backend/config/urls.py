@@ -6,12 +6,22 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Standard API endpoints with /api/ prefix
     path('api/auth/', include('apps.accounts.urls')),
     path('api/listings/', include('apps.listings.urls')),
     path('api/bookings/', include('apps.bookings.urls')),
     path('api/reviews/', include('apps.reviews.urls')),
     path('api/favorites/', include('apps.favorites.urls')),
     path('api/host/', include('apps.listings.host_urls')),
+
+    # Direct aliases without /api/ prefix for backwards compatibility
+    path('auth/', include('apps.accounts.urls')),
+    path('listings/', include('apps.listings.urls')),
+    path('bookings/', include('apps.bookings.urls')),
+    path('reviews/', include('apps.reviews.urls')),
+    path('favorites/', include('apps.favorites.urls')),
+    path('host/', include('apps.listings.host_urls')),
 
     # API Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

@@ -140,8 +140,8 @@ SIMPLE_JWT = {
 }
 
 # CORS Settings
-frontend_url_env = os.environ.get("FRONTEND_URL", "http://localhost:3000")
-frontend_urls = [url.strip().rstrip("/") for url in frontend_url_env.split(",") if url.strip()]
+cors_env = os.environ.get("FRONTEND_URL", os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:3000"))
+frontend_urls = [url.strip().rstrip("/") for url in cors_env.split(",") if url.strip()]
 
 CORS_ALLOWED_ORIGINS = list(set([
     *frontend_urls,
