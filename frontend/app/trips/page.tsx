@@ -102,7 +102,7 @@ export default function MyTripsPage() {
                 className="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col sm:flex-row"
               >
                 <div className="sm:w-2/5 relative h-48 sm:h-auto">
-                  <img src={primaryImg} alt={b.listing.title} className="w-full h-full object-cover" />
+                  <img src={primaryImg} alt={b.listing?.title || 'Trip listing'} className="w-full h-full object-cover" />
                   <span className={`absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md text-white ${
                     b.status === 'CONFIRMED' ? 'bg-emerald-500' : b.status === 'CANCELLED' ? 'bg-rose-500' : 'bg-gray-700'
                   }`}>
@@ -112,8 +112,8 @@ export default function MyTripsPage() {
 
                 <div className="sm:w-3/5 p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-1">
-                    <span className="text-xs text-gray-500 font-semibold">{b.listing.city}, {b.listing.country}</span>
-                    <h3 className="font-bold text-base text-gray-900 dark:text-white line-clamp-1">{b.listing.title}</h3>
+                    <span className="text-xs text-gray-500 font-semibold">{b.listing?.city || ''}, {b.listing?.country || ''}</span>
+                    <h3 className="font-bold text-base text-gray-900 dark:text-white line-clamp-1">{b.listing?.title || 'Stay'}</h3>
                     <div className="flex items-center space-x-1 text-xs text-gray-500 pt-1">
                       <Calendar className="w-3.5 h-3.5 text-rose-500" />
                       <span>{formatDate(b.check_in)} – {formatDate(b.check_out)}</span>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { hostService } from '@/services/hostService';
 import { listingService } from '@/services/listingService';
 import { Listing } from '@/types';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, formatRating } from '@/lib/utils';
 import { PlusCircle, Edit3, Trash2, Star, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -109,7 +109,7 @@ export default function HostListingsPage() {
                       <td className="py-4 px-6 whitespace-nowrap">
                         <div className="flex items-center space-x-1">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                          <span className="font-bold text-xs">{l.rating > 0 ? l.rating.toFixed(2) : 'New'}</span>
+                          <span className="font-bold text-xs">{formatRating(l.rating)}</span>
                         </div>
                       </td>
                       <td className="py-4 px-6 text-right space-x-2 whitespace-nowrap">

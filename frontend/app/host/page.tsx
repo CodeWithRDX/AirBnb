@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { hostService } from '@/services/hostService';
 import { HostStats } from '@/types';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, formatRating } from '@/lib/utils';
 import { 
   Building2, CalendarCheck, CheckCircle2, DollarSign, 
   Star, PlusCircle, ArrowRight 
@@ -102,7 +102,7 @@ export default function HostDashboardPage() {
               <Star className="w-6 h-6 fill-amber-400 text-amber-400" />
             </div>
             <p className="text-2xl font-extrabold text-gray-900 dark:text-white">
-              {stats?.average_rating ? stats.average_rating.toFixed(2) : 'N/A'}
+              {formatRating(stats?.average_rating)}
             </p>
             <p className="text-xs text-gray-400">Average guest rating</p>
           </div>

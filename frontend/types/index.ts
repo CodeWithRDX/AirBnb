@@ -86,6 +86,7 @@ export interface Favorite {
 }
 
 export interface SearchFilters {
+  search?: string;
   location?: string;
   city?: string;
   country?: string;

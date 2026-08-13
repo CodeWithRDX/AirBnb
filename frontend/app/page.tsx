@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { CategoryBar } from '@/components/layout/CategoryBar';
 import { ListingGrid } from '@/components/listings/ListingGrid';
 import { listingService } from '@/services/listingService';
@@ -8,35 +9,51 @@ import { Listing, SearchFilters } from '@/types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [filters, setFilters] = useState<SearchFilters>({ page: 1, page_size: 12 });
+function HomePageContent() {
+  const searchParams = useSearchParams();
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    searchParams.get('property_type') || ''
+  );
+  const [page, setPage] = useState<number>(1);
   const [listings, setListings] = useState<Listing[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchListings = async (searchParams: SearchFilters) => {
-    setLoading(true);
-    try {
-      const data = await listingService.getListings(searchParams);
-      setListings(data.results || []);
-      setTotalCount(data.count || 0);
-    } catch (error) {
-      toast.error('Failed to load marketplace listings.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const categoryParam = searchParams.get('property_type') || '';
+    setSelectedCategory(categoryParam);
+  }, [searchParams]);
 
   useEffect(() => {
     const activeFilters: SearchFilters = {
-      ...filters,
-      property_type: selectedCategory || undefined,
       page,
+      page_size: 12,
+      property_type: selectedCategory || searchParams.get('property_type') || undefined,
+      location: searchParams.get('location') || undefined,
+      check_in: searchParams.get('check_in') || undefined,
+      check_out: searchParams.get('check_out') || undefined,
+      guests: searchParams.get('guests') ? Number(searchParams.get('guests')) : undefined,
+      search: searchParams.get('search') || undefined,
+      min_price: searchParams.get('min_price') ? Number(searchParams.get('min_price')) : undefined,
+      max_price: searchParams.get('max_price') ? Number(searchParams.get('max_price')) : undefined,
     };
-    fetchListings(activeFilters);
-  }, [selectedCategory, filters, page]);
+
+    async function fetchListings() {
+      setLoading(true);
+      try {
+        const data = await listingService.getListings(activeFilters);
+        setListings(data.results || []);
+        setTotalCount(data.count || 0);
+      } catch (error) {
+        toast.error('Failed to load marketplace listings.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchListings();
+  }, [selectedCategory, searchParams, page]);
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
@@ -44,6 +61,8 @@ export default function HomePage() {
   };
 
   const totalPages = Math.ceil(totalCount / 12);
+
+  const activeLocation = searchParams.get('location');
 
   return (
     <div className="min-h-screen pb-16">
@@ -55,6 +74,17 @@ export default function HomePage() {
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        {/* Active Search Filter Info */}
+        {activeLocation && (
+          <div className="mb-6 flex items-center justify-between bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-4 rounded-2xl">
+            <span className="text-sm font-semibold text-rose-700 dark:text-rose-300">
+              Showing stays for &quot;{activeLocation}&quot;
+            </span>
+            <a href="/" className="text-xs font-bold text-rose-600 hover:underline">
+              Clear Filter
+            </a>
+          </div>
+        )}
 
         {/* Listings Grid */}
         <ListingGrid listings={listings} loading={loading} />
@@ -87,3 +117,12 @@ export default function HomePage() {
     </div>
   );
 }
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen p-8 text-center">Loading marketplace...</div>}>
+      <HomePageContent />
+    </Suspense>
+  );
+}
+

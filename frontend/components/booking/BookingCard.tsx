@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Listing } from '@/types';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, formatRating } from '@/lib/utils';
 import { bookingService } from '@/services/bookingService';
 import { useAuth } from '@/context/AuthContext';
 import { Calendar, Users, ShieldCheck, Star } from 'lucide-react';
@@ -95,7 +95,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ listing }) => {
         </div>
         <div className="flex items-center space-x-1 text-sm font-semibold text-gray-800 dark:text-gray-200">
           <Star className="w-4 h-4 fill-gray-900 dark:fill-white text-gray-900 dark:text-white" />
-          <span>{listing.rating > 0 ? listing.rating.toFixed(2) : 'New'}</span>
+          <span>{formatRating(listing.rating)}</span>
           <span className="text-gray-400 text-xs">({listing.review_count})</span>
         </div>
       </div>

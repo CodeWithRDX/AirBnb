@@ -53,15 +53,15 @@ export default function HostBookingsPage() {
             >
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-600 flex items-center justify-center font-bold text-lg shrink-0">
-                  {b.guest.name ? b.guest.name[0] : 'G'}
+                  {b.guest?.name ? b.guest.name[0] : 'G'}
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-gray-900 dark:text-white">{b.guest.name}</h3>
+                  <h3 className="font-bold text-base text-gray-900 dark:text-white">{b.guest?.name || 'Guest'}</h3>
                   <div className="flex items-center space-x-1 text-xs text-gray-500">
                     <Mail className="w-3.5 h-3.5" />
-                    <span>{b.guest.email}</span>
+                    <span>{b.guest?.email || 'N/A'}</span>
                   </div>
-                  <p className="text-xs font-semibold text-rose-500 mt-1">Property: {b.listing.title}</p>
+                  <p className="text-xs font-semibold text-rose-500 mt-1">Property: {b.listing?.title || 'Listing'}</p>
                 </div>
               </div>
 

@@ -23,3 +23,10 @@ export function formatDate(dateString: string): string {
     year: 'numeric',
   });
 }
+
+export function formatRating(rating?: number | string | null): string {
+  if (rating === undefined || rating === null) return 'New';
+  const num = typeof rating === 'string' ? parseFloat(rating) : Number(rating);
+  return !isNaN(num) && num > 0 ? num.toFixed(2) : 'New';
+}
+

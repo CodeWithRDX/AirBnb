@@ -7,7 +7,7 @@ import { Listing, Review } from '@/types';
 import { ImageGallery } from '@/components/listings/ImageGallery';
 import { BookingCard } from '@/components/booking/BookingCard';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { formatCurrency, formatDate, formatRating } from '@/lib/utils';
 import { 
   Star, MapPin, Award, ShieldCheck, Heart, User, 
   Wifi, Utensils, Waves, Wind, Car, Tv, Laptop, Shirt, Flame, Sparkles 
@@ -68,7 +68,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
         <div className="flex flex-wrap items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-300">
           <div className="flex items-center space-x-1">
             <Star className="w-4 h-4 fill-gray-900 dark:fill-white text-gray-900 dark:text-white" />
-            <span>{listing.rating > 0 ? listing.rating.toFixed(2) : 'New'}</span>
+            <span>{formatRating(listing.rating)}</span>
             <span className="text-gray-400">({listing.review_count} reviews)</span>
           </div>
           <span>•</span>
@@ -91,18 +91,18 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
           <div className="flex items-center justify-between pb-6 border-b border-gray-200 dark:border-gray-800">
             <div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {listing.property_type} hosted by {listing.host.name}
+                {listing.property_type} hosted by {listing.host?.name || 'Host'}
               </h2>
               <p className="text-sm text-gray-500 mt-1">
                 {listing.max_guests} guests • {listing.bedrooms} bedroom{listing.bedrooms > 1 ? 's' : ''} • {listing.beds} bed{listing.beds > 1 ? 's' : ''} • {listing.bathrooms} bath{listing.bathrooms > 1 ? 's' : ''}
               </p>
             </div>
             <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200 border-2 border-rose-500 shrink-0">
-              {listing.host.profile_image ? (
+              {listing.host?.profile_image ? (
                 <img src={listing.host.profile_image} alt={listing.host.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center font-bold text-gray-600">
-                  {listing.host.name[0]}
+                  {listing.host?.name ? listing.host.name[0] : 'H'}
                 </div>
               )}
             </div>
@@ -113,7 +113,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
             <div className="flex items-start space-x-4">
               <Award className="w-6 h-6 text-rose-500 shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-sm font-bold text-gray-900 dark:text-white">{listing.host.name} is a Superhost</h4>
+                <h4 className="text-sm font-bold text-gray-900 dark:text-white">{listing.host?.name || 'Host'} is a Superhost</h4>
                 <p className="text-xs text-gray-500">Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
           <div className="space-y-6 pt-2">
             <div className="flex items-center space-x-2 text-xl font-bold text-gray-900 dark:text-white">
               <Star className="w-6 h-6 fill-gray-900 dark:fill-white text-gray-900 dark:text-white" />
-              <span>{listing.rating > 0 ? listing.rating.toFixed(2) : 'New'}</span>
+              <span>{formatRating(listing.rating)}</span>
               <span>•</span>
               <span>{listing.review_count} review{listing.review_count !== 1 ? 's' : ''}</span>
             </div>

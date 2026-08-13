@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Heart, Star } from 'lucide-react';
 import { Listing } from '@/types';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, formatRating } from '@/lib/utils';
 import { favoriteService } from '@/services/favoriteService';
 import { useAuth } from '@/context/AuthContext';
 import toast from 'react-hot-toast';
@@ -96,7 +96,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onFavoriteTog
           <span className="truncate pr-2">{listing.city}, {listing.country}</span>
           <div className="flex items-center space-x-1 shrink-0">
             <Star className="w-3.5 h-3.5 fill-gray-900 dark:fill-white text-gray-900 dark:text-white" />
-            <span className="text-xs">{listing.rating > 0 ? listing.rating.toFixed(2) : 'New'}</span>
+            <span className="text-xs">{formatRating(listing.rating)}</span>
           </div>
         </div>
 

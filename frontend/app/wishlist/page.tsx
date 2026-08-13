@@ -26,10 +26,12 @@ export default function WishlistPage() {
     loadWishlist();
   }, []);
 
-  const listings: Listing[] = favorites.map((fav) => ({
-    ...fav.listing,
-    is_favorite: true,
-  }));
+  const listings: Listing[] = favorites
+    .filter((fav) => fav && fav.listing)
+    .map((fav) => ({
+      ...fav.listing,
+      is_favorite: true,
+    }));
 
   const handleFavToggle = (listingId: string, isFav: boolean) => {
     if (!isFav) {
