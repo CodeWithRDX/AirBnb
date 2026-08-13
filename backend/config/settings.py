@@ -140,12 +140,14 @@ SIMPLE_JWT = {
 }
 
 # CORS Settings
-FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
-CORS_ALLOWED_ORIGINS = [
-    FRONTEND_URL,
+frontend_url_env = os.environ.get("FRONTEND_URL", "http://localhost:3000")
+frontend_urls = [url.strip().rstrip("/") for url in frontend_url_env.split(",") if url.strip()]
+
+CORS_ALLOWED_ORIGINS = list(set([
+    *frontend_urls,
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-]
+]))
 CORS_ALLOW_CREDENTIALS = True
 
 # OpenAPI / Spectacular Settings
