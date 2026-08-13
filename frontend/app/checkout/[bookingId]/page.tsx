@@ -72,7 +72,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ bookingId: 
         <div className="bg-gray-50 dark:bg-gray-800/60 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 text-left space-y-3 text-sm">
           <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
             <span className="text-gray-500">Booking Reference</span>
-            <span className="font-mono font-bold text-rose-500">#{strId(booking.id)}</span>
+            <span className="font-mono font-bold text-rose-500">#{booking.id ? String(booking.id).slice(0, 8).toUpperCase() : 'RES-001'}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500">Check-in</span>

@@ -52,6 +52,7 @@ class Listing(models.Model):
     
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00), MaxValueValidator(5.00)])
     review_count = models.PositiveIntegerField(default=0)
+    is_guest_favorite = models.BooleanField(default=False, db_index=True)
     
     amenities = models.ManyToManyField(Amenity, related_name='listings', blank=True)
     

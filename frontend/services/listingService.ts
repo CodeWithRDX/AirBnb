@@ -35,5 +35,16 @@ export const listingService = {
   async getAmenities(): Promise<Amenity[]> {
     const res = await api.get('/listings/amenities/');
     return res.data;
+  },
+
+  async getHomepageSections(params: { city?: string; category?: string; lat?: number; lng?: number } = {}): Promise<import('@/types').HomepageSectionsResponse> {
+    const searchParams = new URLSearchParams();
+    if (params.city) searchParams.append('city', params.city);
+    if (params.category) searchParams.append('category', params.category);
+    if (params.lat) searchParams.append('lat', String(params.lat));
+    if (params.lng) searchParams.append('lng', String(params.lng));
+
+    const res = await api.get(`/listings/sections/?${searchParams.toString()}`);
+    return res.data;
   }
 };

@@ -2,60 +2,198 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { Globe, Heart } from 'lucide-react';
+import { useLocation } from '@/context/LocationContext';
 
 export const Footer: React.FC = () => {
+  const { setIsCityModalOpen } = useLocation();
+
   return (
-    <footer className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 text-gray-600 dark:text-gray-400 mt-20 transition-colors">
+    <footer className="border-t border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-300 text-xs transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          <div>
-            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Support</h4>
-            <ul className="space-y-2.5 text-xs">
-              <li><a href="#" className="hover:underline">Help Center</a></li>
-              <li><a href="#" className="hover:underline">AirCover Safety</a></li>
-              <li><a href="#" className="hover:underline">Anti-discrimination</a></li>
-              <li><a href="#" className="hover:underline">Disability support</a></li>
-              <li><a href="#" className="hover:underline">Cancellation options</a></li>
+        
+        {/* 3-Column Navigation Grid matching frame_014.png */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-neutral-200 dark:border-neutral-800">
+          
+          {/* Column 1: Support */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-neutral-900 dark:text-white text-sm">Support</h4>
+            <ul className="space-y-2.5">
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Help Centre
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Get help with a safety issue
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  AirCover
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Anti-discrimination
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Disability support
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Cancellation options
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Report neighbourhood concern
+                </a>
+              </li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Hosting</h4>
-            <ul className="space-y-2.5 text-xs">
-              <li><Link href="/register" className="hover:underline">Airbnb your home</Link></li>
-              <li><a href="#" className="hover:underline">AirCover for Hosts</a></li>
-              <li><a href="#" className="hover:underline">Hosting resources</a></li>
-              <li><a href="#" className="hover:underline">Community forum</a></li>
-              <li><a href="#" className="hover:underline">Hosting responsibly</a></li>
+
+          {/* Column 2: Hosting */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-neutral-900 dark:text-white text-sm">Hosting</h4>
+            <ul className="space-y-2.5">
+              <li>
+                <Link href="/register" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Airbnb your home
+                </Link>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Airbnb your experience
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Airbnb your service
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  AirCover for Hosts
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Hosting resources
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Community forum
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Hosting responsibly
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Join a free hosting class
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Find a co-host
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Refer a host
+                </a>
+              </li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Marketplace</h4>
-            <ul className="space-y-2.5 text-xs">
-              <li><a href="#" className="hover:underline">Newsroom</a></li>
-              <li><a href="#" className="hover:underline">New features</a></li>
-              <li><a href="#" className="hover:underline">Careers</a></li>
-              <li><a href="#" className="hover:underline">Investors</a></li>
-              <li><a href="#" className="hover:underline">Emergency stays</a></li>
+
+          {/* Column 3: Airbnb */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-neutral-900 dark:text-white text-sm">Airbnb</h4>
+            <ul className="space-y-2.5">
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  2026 Summer Release
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Newsroom
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Investors
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                  Airbnb.org emergency stays
+                </a>
+              </li>
             </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Tech Stack</h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-3">
-              Production-Quality Marketplace built with Next.js 14, TypeScript, Tailwind CSS & Django REST Framework with SQLite.
-            </p>
-            <span className="inline-block bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-semibold text-[10px] px-2.5 py-1 rounded-full">
-              SDE Full-Stack Portfolio
-            </span>
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© 2026 StayHaven (Airbnb Marketplace Clone). Educational Portfolio Assignment — Not affiliated with Airbnb, Inc.</p>
-          <div className="flex space-x-6">
+        {/* Bottom Bar matching frame_014.png */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          
+          {/* Left: Copyright & Legal Links */}
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-neutral-500 dark:text-neutral-400">
+            <span>© 2026 Airbnb, Inc.</span>
+            <span>·</span>
             <a href="#" className="hover:underline">Privacy</a>
+            <span>·</span>
             <a href="#" className="hover:underline">Terms</a>
-            <a href="#" className="hover:underline">Sitemap</a>
+            <span>·</span>
             <a href="#" className="hover:underline">Company details</a>
+          </div>
+
+          {/* Right: Language, Currency, Social Icons */}
+          <div className="flex items-center space-x-6">
+            <button
+              onClick={() => setIsCityModalOpen(true)}
+              className="flex items-center space-x-1.5 font-bold hover:underline cursor-pointer"
+            >
+              <Globe className="w-4 h-4" />
+              <span>English (IN)</span>
+            </button>
+
+            <span className="font-bold">₹ INR</span>
+
+            {/* Social Icons */}
+            <div className="flex items-center space-x-3 text-neutral-700 dark:text-neutral-300">
+              {/* Facebook */}
+              <a href="#" aria-label="Facebook" className="hover:text-neutral-900 dark:hover:text-white">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                </svg>
+              </a>
+              {/* X / Twitter */}
+              <a href="#" aria-label="X (Twitter)" className="hover:text-neutral-900 dark:hover:text-white">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              {/* Instagram */}
+              <a href="#" aria-label="Instagram" className="hover:text-neutral-900 dark:hover:text-white">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>

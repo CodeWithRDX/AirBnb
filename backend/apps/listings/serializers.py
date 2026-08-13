@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from apps.accounts.serializers import UserSerializer
+try:
+    from apps.accounts.serializers import UserSerializer
+except (ImportError, ModuleNotFoundError):
+    from ..accounts.serializers import UserSerializer
 from .models import Listing, ListingImage, Amenity
 
 class AmenitySerializer(serializers.ModelSerializer):
@@ -18,6 +21,7 @@ class ListingListSerializer(serializers.ModelSerializer):
     host = UserSerializer(read_only=True)
     images = ListingImageSerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
+    distance_km = serializers.SerializerMethodField()
 
     class Meta:
         model = Listing
@@ -25,7 +29,7 @@ class ListingListSerializer(serializers.ModelSerializer):
             'id', 'host', 'title', 'property_type', 'location', 'city', 'country',
             'latitude', 'longitude', 'price_per_night', 'cleaning_fee', 'service_fee',
             'max_guests', 'bedrooms', 'beds', 'bathrooms', 'rating', 'review_count',
-            'images', 'is_favorite', 'created_at'
+            'is_guest_favorite', 'images', 'is_favorite', 'distance_km', 'created_at'
         )
 
     def get_is_favorite(self, obj):
@@ -33,6 +37,9 @@ class ListingListSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             return obj.favorites.filter(user=request.user).exists()
         return False
+
+    def get_distance_km(self, obj):
+        return getattr(obj, 'distance_km', None)
 
 
 class ListingDetailSerializer(serializers.ModelSerializer):
@@ -40,6 +47,7 @@ class ListingDetailSerializer(serializers.ModelSerializer):
     images = ListingImageSerializer(many=True, read_only=True)
     amenities = AmenitySerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
+    distance_km = serializers.SerializerMethodField()
 
     class Meta:
         model = Listing
@@ -47,7 +55,7 @@ class ListingDetailSerializer(serializers.ModelSerializer):
             'id', 'host', 'title', 'description', 'property_type', 'location', 'city', 'country',
             'latitude', 'longitude', 'price_per_night', 'cleaning_fee', 'service_fee',
             'max_guests', 'bedrooms', 'beds', 'bathrooms', 'rating', 'review_count',
-            'images', 'amenities', 'is_favorite', 'created_at', 'updated_at'
+            'is_guest_favorite', 'images', 'amenities', 'is_favorite', 'distance_km', 'created_at', 'updated_at'
         )
 
     def get_is_favorite(self, obj):
@@ -55,6 +63,9 @@ class ListingDetailSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             return obj.favorites.filter(user=request.user).exists()
         return False
+
+    def get_distance_km(self, obj):
+        return getattr(obj, 'distance_km', None)
 
 
 class ListingCreateUpdateSerializer(serializers.ModelSerializer):
@@ -70,24 +81,21 @@ class ListingCreateUpdateSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'title', 'description', 'property_type', 'location', 'city', 'country',
             'latitude', 'longitude', 'price_per_night', 'cleaning_fee', 'service_fee',
-            'max_guests', 'bedrooms', 'beds', 'bathrooms', 'image_urls', 'amenity_ids'
+            'max_guests', 'bedrooms', 'beds', 'bathrooms', 'is_guest_favorite', 'image_urls', 'amenity_ids'
         )
 
     def create(self, validated_data):
         image_urls = validated_data.pop('image_urls', [])
         amenity_ids = validated_data.pop('amenity_ids', [])
         
-        # Host is set to current authenticated user
         request = self.context.get('request')
         validated_data['host'] = request.user
         
         listing = Listing.objects.create(**validated_data)
         
-        # Set Amenities
         if amenity_ids:
             listing.amenities.set(amenity_ids)
             
-        # Create Listing Images
         for order, url in enumerate(image_urls):
             ListingImage.objects.create(
                 listing=listing,

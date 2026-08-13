@@ -20,6 +20,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState<boolean>(true);
 
   const refreshUser = async () => {
+    if (typeof window !== 'undefined' && !localStorage.getItem('access_token')) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
     try {
       const u = await authService.getMe();
       setUser(u);

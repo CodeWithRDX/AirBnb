@@ -43,9 +43,11 @@ export interface Listing {
   bathrooms: number;
   rating: number;
   review_count: number;
+  is_guest_favorite?: boolean;
   images: ListingImage[];
   amenities?: Amenity[];
   is_favorite?: boolean;
+  distance_km?: number | null;
   created_at: string;
   updated_at?: string;
 }
@@ -119,3 +121,28 @@ export interface HostStats {
   estimated_revenue: number;
   average_rating: number;
 }
+
+export interface SectionData {
+  title: string;
+  city?: string;
+  count: number;
+  listings: Listing[];
+}
+
+export interface AvailableCity {
+  city: string;
+  nearby: string;
+  count: number;
+}
+
+export interface HomepageSectionsResponse {
+  active_city: string;
+  nearby_city: string;
+  sections: {
+    popular_local: SectionData;
+    nearby_weekend: SectionData;
+    trending: SectionData;
+  };
+  available_cities: AvailableCity[];
+}
+

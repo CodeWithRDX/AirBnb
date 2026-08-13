@@ -19,7 +19,7 @@ export const api = axios.create({
   },
 });
 
-// Attach Authorization header if access token exists in localStorage/cookie fallback
+// Attach Authorization header if access token exists
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('access_token');
@@ -30,7 +30,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Automatic token refresh interceptor on 401
+// Automatic token refresh interceptor on 401 with seamless public fallback
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -53,9 +53,17 @@ api.interceptors.response.use(
           localStorage.removeItem('access_token');
           localStorage.removeItem('user');
         }
+        // If it's a GET request (e.g. public listings or sections), retry without invalid auth header
+        if (originalRequest.headers?.Authorization) {
+          delete originalRequest.headers.Authorization;
+          try {
+            return await axios(originalRequest);
+          } catch {
+            // ignore
+          }
+        }
       }
     }
     return Promise.reject(error);
   }
 );
-

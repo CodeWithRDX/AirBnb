@@ -1,0 +1,9 @@
+[tool.pyright]
+include = ["backend"]
+extraPaths = ["backend", "backend/apps"]
+venvPath = "backend"
+venv = "venv"
+
+[tool.pyrefly]
+extraPaths = ["backend", "backend/apps"]
+venv = "backend/venv"
